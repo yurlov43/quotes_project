@@ -1,0 +1,192 @@
+[
+    {
+      "model": "quotes.source",
+      "pk": 1,
+      "fields": {
+        "title": "Властелин Колец: Братство Кольца",
+        "source_type": "movie",
+        "year": 2001,
+        "created_at": "2025-09-03T17:00:00Z"
+      }
+    },
+    {
+      "model": "quotes.source",
+      "pk": 2,
+      "fields": {
+        "title": "Гарри Поттер и философский камень",
+        "source_type": "book",
+        "year": 1997,
+        "created_at": "2025-09-03T17:01:00Z"
+      }
+    },
+    {
+      "model": "quotes.source",
+      "pk": 3,
+      "fields": {
+        "title": "Игра престолов",
+        "source_type": "series",
+        "year": 2011,
+        "created_at": "2025-09-03T17:02:00Z"
+      }
+    },
+    {
+      "model": "quotes.source",
+      "pk": 4,
+      "fields": {
+        "title": "Матрица",
+        "source_type": "movie",
+        "year": 1999,
+        "created_at": "2025-09-03T17:03:00Z"
+      }
+    },
+    {
+      "model": "quotes.source",
+      "pk": 5,
+      "fields": {
+        "title": "1984",
+        "source_type": "book",
+        "year": 1949,
+        "created_at": "2025-09-03T17:04:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 1,
+      "fields": {
+        "text": "Даже самая маленькая личность может изменить ход будущего.",
+        "source": 1,
+        "weight": 5,
+        "likes": 15,
+        "dislikes": 2,
+        "views": 42,
+        "created_at": "2025-09-03T17:10:00Z",
+        "updated_at": "2025-09-03T17:10:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 2,
+      "fields": {
+        "text": "Нельзя просто так взять и войти в Мордор.",
+        "source": 1,
+        "weight": 3,
+        "likes": 8,
+        "dislikes": 1,
+        "views": 28,
+        "created_at": "2025-09-03T17:11:00Z",
+        "updated_at": "2025-09-03T17:11:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 3,
+      "fields": {
+        "text": "Мой драгоценный...",
+        "source": 1,
+        "weight": 2,
+        "likes": 5,
+        "dislikes": 3,
+        "views": 35,
+        "created_at": "2025-09-03T17:12:00Z",
+        "updated_at": "2025-09-03T17:12:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 4,
+      "fields": {
+        "text": "Нельзя выбирать между добром и злом, если ты не видишь разницы между ними.",
+        "source": 2,
+        "weight": 4,
+        "likes": 12,
+        "dislikes": 0,
+        "views": 31,
+        "created_at": "2025-09-03T17:13:00Z",
+        "updated_at": "2025-09-03T17:13:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 5,
+      "fields": {
+        "text": "Счастье можно найти даже в самые тёмные времена, если не забывать обращаться к свету.",
+        "source": 2,
+        "weight": 5,
+        "likes": 20,
+        "dislikes": 1,
+        "views": 50,
+        "created_at": "2025-09-03T17:14:00Z",
+        "updated_at": "2025-09-03T17:14:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 6,
+      "fields": {
+        "text": "Зима близко.",
+        "source": 3,
+        "weight": 1,
+        "likes": 25,
+        "dislikes": 5,
+        "views": 65,
+        "created_at": "2025-09-03T17:15:00Z",
+        "updated_at": "2025-09-03T17:15:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 7,
+      "fields": {
+        "text": "Тот, кто произносит клятву, должен быть её хранителем.",
+        "source": 3,
+        "weight": 3,
+        "likes": 10,
+        "dislikes": 2,
+        "views": 29,
+        "created_at": "2025-09-03T17:16:00Z",
+        "updated_at": "2025-09-03T17:16:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 8,
+      "fields": {
+        "text": "Ты будешь помнить, что первейшее правило матрицы — не правила, а иллюзия.",
+        "source": 4,
+        "weight": 4,
+        "likes": 18,
+        "dislikes": 3,
+        "views": 45,
+        "created_at": "2025-09-03T17:17:00Z",
+        "updated_at": "2025-09-03T17:17:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 9,
+      "fields": {
+        "text": "Война это мир. Свобода это рабство. Незнание это сила.",
+        "source": 5,
+        "weight": 5,
+        "likes": 22,
+        "dislikes": 4,
+        "views": 55,
+        "created_at": "2025-09-03T17:18:00Z",
+        "updated_at": "2025-09-03T17:18:00Z"
+      }
+    },
+    {
+      "model": "quotes.quote",
+      "pk": 10,
+      "fields": {
+        "text": "Кто управляет прошлым, тот управляет будущим; кто управляет настоящим, тот управляет прошлым.",
+        "source": 5,
+        "weight": 4,
+        "likes": 16,
+        "dislikes": 2,
+        "views": 38,
+        "created_at": "2025-09-03T17:19:00Z",
+        "updated_at": "2025-09-03T17:19:00Z"
+      }
+    }
+  ]

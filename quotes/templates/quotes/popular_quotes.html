@@ -1,0 +1,58 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="text-center mb-4">Популярные цитаты</h1>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <h3>По лайкам</h3>
+                {% for quote in popular_by_likes %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p>"{{ quote.text }}"</p>
+                        <small class="text-muted">{{ quote.source.title }}</small>
+                        <div class="mt-2">
+                            <span class="badge bg-success">👍 {{ quote.likes }}</span>
+                            <span class="badge bg-danger">👎 {{ quote.dislikes }}</span>
+                            <span class="badge bg-secondary">👀 {{ quote.views }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="col-md-4">
+                <h3>По соотношению</h3>
+                {% for quote in popular_by_ratio %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p>"{{ quote.text }}"</p>
+                        <small class="text-muted">{{ quote.source.title }}</small>
+                        <div class="mt-2">
+                            <span class="badge bg-info">⭐ {{ quote.ratio|floatformat:1 }}%</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="col-md-4">
+                <h3>По просмотрам</h3>
+                {% for quote in most_viewed %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p>"{{ quote.text }}"</p>
+                        <small class="text-muted">{{ quote.source.title }}</small>
+                        <div class="mt-2">
+                            <span class="badge bg-warning">👀 {{ quote.views }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

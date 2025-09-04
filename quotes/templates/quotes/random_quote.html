@@ -1,0 +1,72 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Случайная цитата</h2>
+            </div>
+            <div class="card-body">
+                {% if quote %}
+                <blockquote class="blockquote mb-4">
+                    <p class="fs-4">"{{ quote.text }}"</p>
+                    <footer class="blockquote-footer">
+                        {{ quote.source.title }} 
+                        <cite title="Source Title">({{ quote.source.get_source_type_display }})</cite>
+                    </footer>
+                </blockquote>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="badge bg-secondary">Просмотры: {{ quote.views }}</span>
+                        <span class="badge bg-success ms-2">Лайки: {{ quote.likes }}</span>
+                        <span class="badge bg-danger ms-2">Дизлайки: {{ quote.dislikes }}</span>
+                    </div>
+                    
+                    <div>
+                        <button class="btn btn-success btn-sm like-btn" data-action="like" data-quote-id="{{ quote.id }}">
+                            👍 Лайк
+                        </button>
+                        <button class="btn btn-danger btn-sm like-btn" data-action="dislike" data-quote-id="{{ quote.id }}">
+                            👎 Дизлайк
+                        </button>
+                    </div>
+                </div>
+                {% else %}
+                <p class="text-center">Цитат пока нет. <a href="{% url 'add_quote' %}">Добавьте первую!</a></p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'random_quote' %}" class="btn btn-primary">Следующая цитата</a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const quoteId = this.dataset.quoteId;
+            const action = this.dataset.action;
+            
+            fetch(`/like/${quoteId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `action=${action}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector('.badge.bg-success').textContent = `Лайки: ${data.likes}`;
+                document.querySelector('.badge.bg-danger').textContent = `Дизлайки: ${data.dislikes}`;
+            });
+        });
+    });
+});
+</script>
+{% endblock %}
