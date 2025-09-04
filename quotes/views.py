@@ -36,12 +36,20 @@ def add_quote(request):
                 quote.full_clean()  # Дополнительная валидация
                 quote.save()
                 return redirect('random_quote')
-            except IntegrityError:
-                form.add_error(None, 'Такая цитата уже существует в базе!')
             except ValidationError as e:
-                for error in e.error_dict:
-                    for sub_error in e.error_dict[error]:
-                        form.add_error(error, sub_error)
+                # Обрабатываем ошибки валидации из модели
+                for field, errors in e.error_dict.items():
+                    for error in errors:
+                        if field == '__all__':
+                            form.add_error(None, error)
+                        else:
+                            form.add_error(field, error)
+            except IntegrityError as e:
+                # Обрабатываем ошибки уникальности из базы данных
+                if 'unique' in str(e).lower():
+                    form.add_error('text', 'Такая цитата уже существует в базе!')
+                else:
+                    form.add_error(None, f'Ошибка базы данных: {e}')
     else:
         form = QuoteForm()
     
