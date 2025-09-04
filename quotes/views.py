@@ -5,6 +5,8 @@ from django.views.decorators.http import require_POST
 import random
 from .models import Quote, Source
 from .forms import QuoteForm, SourceForm
+from django.db import IntegrityError
+from django.core.exceptions import ValidationError
 
 def random_quote(request):
     # Получаем случайную цитату с учетом веса
@@ -29,8 +31,17 @@ def add_quote(request):
     if request.method == 'POST':
         form = QuoteForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('random_quote')
+            try:
+                quote = form.save(commit=False)
+                quote.full_clean()  # Дополнительная валидация
+                quote.save()
+                return redirect('random_quote')
+            except IntegrityError:
+                form.add_error(None, 'Такая цитата уже существует в базе!')
+            except ValidationError as e:
+                for error in e.error_dict:
+                    for sub_error in e.error_dict[error]:
+                        form.add_error(error, sub_error)
     else:
         form = QuoteForm()
     

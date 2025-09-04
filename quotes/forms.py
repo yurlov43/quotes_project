@@ -22,6 +22,22 @@ class QuoteForm(forms.ModelForm):
             'weight': forms.NumberInput(attrs={'class': 'form-control', 'min': 1}),
         }
     
+    def clean_text(self):
+        text = self.cleaned_data.get('text')
+        
+        if text:
+            # Проверяем, существует ли уже такая цитата (регистронезависимо)
+            queryset = Quote.objects.filter(text__iexact=text)
+            
+            # Если редактируем существующую запись, исключаем её из проверки
+            if self.instance and self.instance.pk:
+                queryset = queryset.exclude(pk=self.instance.pk)
+            
+            if queryset.exists():
+                raise forms.ValidationError("Такая цитата уже существует в базе!")
+        
+        return text
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Фильтруем источники, у которых меньше 3 цитат

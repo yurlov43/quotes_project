@@ -26,8 +26,9 @@ class Source(models.Model):
     def quote_count(self):
         return self.quotes.count()
 
+
 class Quote(models.Model):
-    text = models.TextField(verbose_name="Текст цитаты")
+    text = models.TextField(verbose_name="Текст цитаты", unique=True)  # ← Добавьте unique=True
     source = models.ForeignKey(Source, on_delete=models.CASCADE, related_name='quotes', verbose_name="Источник")
     weight = models.IntegerField(default=1, verbose_name="Вес (чем больше, тем чаще показывается)")
     likes = models.IntegerField(default=0, verbose_name="Лайки")
@@ -37,7 +38,7 @@ class Quote(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        unique_together = ['text', 'source']
+        # Убираем unique_together, так как text теперь уникален сам по себе
         ordering = ['-created_at']
     
     def __str__(self):
@@ -48,14 +49,11 @@ class Quote(models.Model):
         if self.pk is None:  # Новая запись
             if Quote.objects.filter(source=self.source).count() >= 3:
                 raise ValidationError(f"У источника '{self.source.title}' уже максимальное количество цитат (3)")
+        
+        # Проверка на дубликат текста (независимо от источника)
+        if Quote.objects.filter(text__iexact=self.text).exclude(pk=self.pk).exists():
+            raise ValidationError("Такая цитата уже существует в базе!")
     
     def save(self, *args, **kwargs):
-        self.clean()
+        self.full_clean()  # Вызываем валидацию
         super().save(*args, **kwargs)
-    
-    def popularity(self):
-        return self.likes - self.dislikes
-    
-    def like_ratio(self):
-        total = self.likes + self.dislikes
-        return (self.likes / total * 100) if total > 0 else 0
