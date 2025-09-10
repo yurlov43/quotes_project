@@ -5,11 +5,18 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h2>{% block title %}Добавить цитату{% endblock %}</h2>
+                <h2>{% block title %}Добавить источник{% endblock %}</h2>
             </div>
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        Проверьте правильность заполнения формы
+                    </div>
+                    {% endif %}
+
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-primary">Добавить</button>
                     <a href="{% url 'random_quote' %}" class="btn btn-secondary">Отмена</a>

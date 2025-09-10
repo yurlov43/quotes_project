@@ -2,63 +2,24 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 <h2>Добавить цитату</h2>
             </div>
             <div class="card-body">
-                <form method="post">
+                <form method="post"  novalidate>
                     {% csrf_token %}
                     
-                    {% if form.non_field_errors %}
+                    {% if form.errors %}
                     <div class="alert alert-danger">
-                        {% for error in form.non_field_errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+                        Проверьте правильность заполнения формы
                     </div>
                     {% endif %}
+
+                    {{ form.as_p }}
                     
-                    <div class="mb-3">
-                        <label for="{{ form.text.id_for_label }}" class="form-label">Текст цитаты *</label>
-                        {{ form.text }}
-                        {% if form.text.errors %}
-                        <div class="invalid-feedback d-block">
-                            {% for error in form.text.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                        <div class="form-text">Цитата будет проверена на уникальность (регистронезависимо)</div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.source.id_for_label }}" class="form-label">Источник *</label>
-                        {{ form.source }}
-                        {% if form.source.errors %}
-                        <div class="invalid-feedback d-block">
-                            {% for error in form.source.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                        <div class="form-text">Максимум 3 цитаты на один источник</div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.weight.id_for_label }}" class="form-label">Вес</label>
-                        {{ form.weight }}
-                        {% if form.weight.errors %}
-                        <div class="invalid-feedback d-block">
-                            {% for error in form.weight.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                        <div class="form-text">Чем выше вес, тем чаще цитата будет показываться</div>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">Добавить цитату</button>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
                     <a href="{% url 'random_quote' %}" class="btn btn-secondary">Отмена</a>
                 </form>
             </div>

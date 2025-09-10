@@ -1,12 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from django.db.models import Sum, Count, F
+from django.db.models import F
 from django.views.decorators.http import require_POST
 import random
-from .models import Quote, Source
+from .models import Quote
 from .forms import QuoteForm, SourceForm
-from django.db import IntegrityError
-from django.core.exceptions import ValidationError
 
 def random_quote(request):
     # Получаем случайную цитату с учетом веса
@@ -31,25 +29,8 @@ def add_quote(request):
     if request.method == 'POST':
         form = QuoteForm(request.POST)
         if form.is_valid():
-            try:
-                quote = form.save(commit=False)
-                quote.full_clean()  # Дополнительная валидация
-                quote.save()
-                return redirect('random_quote')
-            except ValidationError as e:
-                # Обрабатываем ошибки валидации из модели
-                for field, errors in e.error_dict.items():
-                    for error in errors:
-                        if field == '__all__':
-                            form.add_error(None, error)
-                        else:
-                            form.add_error(field, error)
-            except IntegrityError as e:
-                # Обрабатываем ошибки уникальности из базы данных
-                if 'unique' in str(e).lower():
-                    form.add_error('text', 'Такая цитата уже существует в базе!')
-                else:
-                    form.add_error(None, f'Ошибка базы данных: {e}')
+            form.save()
+            return redirect('random_quote')
     else:
         form = QuoteForm()
     
@@ -103,5 +84,4 @@ def like_quote(request, quote_id):
     return JsonResponse({
         'likes': quote.likes,
         'dislikes': quote.dislikes,
-        'popularity': quote.popularity()
     })
